@@ -51,7 +51,7 @@ function start() {
     const totalCells = columns * columns;
 
     const maxAttempts = totalCells - totalBombs;
-    const bombs = [];
+    let bombs = [];
 
     // GENERO UNA BOMBA
     const generateBombs = (totalBombs, totalNumber) => {
@@ -77,7 +77,7 @@ function start() {
     // CREO LA CELLA
     function createCell(cellNumber, cellsPerRow) {
         const cell = document.createElement("div");
-        cell.id =  = cellNumber;
+        cell.id =  cellNumber;
         cell.className = "cell";
         cell.innerText = cellNumber;
         const wh = `calc(100% / ${cellsPerRow})`;
@@ -87,17 +87,17 @@ function start() {
     }
 
     // Gestisco l'evento al click
-    function onCellClick(clickedCell) {
-        
-        clickedCell.removeEventListener("click", onCellClick);
-        console.log('ciao');
+    function onCellClick(event) {
+        const cell = event.target;
+        cell.removeEventListener("click", onCellClick);
 
         // Controllo se è una bomba
-        let number = clickedCell.id;
+        let number = parseInt(cell.id);
+
         if (bombs.includes(number)) {
             gameOver(bombs, attempts, true);
         } else {
-            clickedCell.classList.add("safe")
+            cell.classList.add("safe")
             attempts++;
             if (attempts === maxAttempts) {
                 gameOver(bombs, attempts, false);
